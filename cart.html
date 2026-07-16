@@ -512,6 +512,16 @@ nav {
   .iban-row .iban-val { font-size: 11px; }
 }
 
+
+.s-item { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid rgba(0,0,0,0.06); flex-wrap:wrap; }
+.s-item-info { flex:1; }
+.s-item-controls { display:flex; align-items:center; gap:8px; }
+.qty-btn { background:none; border:1px solid rgba(0,0,0,0.2); width:28px; height:28px; cursor:pointer; font-size:16px; border-radius:4px; display:flex; align-items:center; justify-content:center; }
+.qty-btn:hover { background:#f0f0f0; }
+.qty-num { font-size:14px; font-weight:600; min-width:20px; text-align:center; }
+.remove-btn { background:none; border:none; color:rgba(0,0,0,0.3); cursor:pointer; font-size:14px; padding:4px; }
+.remove-btn:hover { color:#c00; }
+
 /* PAYMENT SECTION */
 .payment-section { background: #fafafa; border-top: 1px solid rgba(0,0,0,0.07); padding: 60px 20px; }
 .payment-inner { max-width: 500px; margin: 0 auto; }
@@ -679,7 +689,7 @@ nav {
     <div class="pay-detail show" id="detail-iban">
       <div class="pay-detail-row">
         <span class="pay-detail-lbl">Bank</span>
-        <span class="pay-detail-val">Al Rajhi Bank</span>
+        <span class="pay-detail-val">Rajhi Bank</span>
       </div>
       <div class="pay-detail-row">
         <span class="pay-detail-lbl">Account Name</span>
@@ -687,7 +697,7 @@ nav {
       </div>
       <div class="pay-detail-row iban-row">
         <span class="pay-detail-lbl">IBAN</span>
-        <span class="pay-detail-val iban-val" id="iban-num">SA24 7800 0000 0012 3440 7337</span>
+        <span class="pay-detail-val iban-val" id="iban-num">SA48 8000 0856 6080 1736 9130</span>
         <button class="copy-btn iban-copy" onclick="copyText('iban-num',this)">Copy</button>
       </div>
       <p class="pay-note">After transferring, send your receipt via WhatsApp to +966 54 267 4554 or email us at info@secretofoud.com. Once confirmed, you will receive an order confirmation via WhatsApp or email within 24 hours.</p>
@@ -704,7 +714,7 @@ nav {
     <div class="pay-detail" id="detail-stc">
       <div class="pay-detail-row iban-row">
         <span class="pay-detail-lbl">IBAN</span>
-        <span class="pay-detail-val iban-val" id="stc-num">SA55 3603 6036 0952 4120 6123</span>
+        <span class="pay-detail-val iban-val" id="stc-num">SA24 7800 0000 0012 3440 7337</span>
         <button class="copy-btn iban-copy" onclick="copyText('stc-num',this)">Copy</button>
       </div>
       <div class="pay-detail-row">
@@ -807,9 +817,16 @@ function renderSummary(){
   var html = "";
   cart.forEach(function(item){
     html += '<div class="s-item">' +
-      '<div class="s-item-thumb">' + item.name + '<span class="s-badge">' + item.qty + '</span></div>' +
-      '<div class="s-item-info"><span class="s-item-name">' + item.name + '</span><span class="s-item-sub">30ml EDP</span></div>' +
-      '<span class="s-item-price">' + (item.price * item.qty).toFixed(2) + ' SAR</span>' +
+      '<div class="s-item-info"><span class="s-item-name">' + item.name + '</span><span class="s-item-sub">30ml EDP · ' + item.price.toFixed(2) + ' SAR each</span></div>' +
+      '<div class="s-item-controls">' +
+        '<button class="qty-btn" onclick="changeQty(\''+item.id+'\', -1)">−</button>' +
+        '<span class="qty-num">' + item.qty + '</span>' +
+        '<button class="qty-btn" onclick="changeQty(\''+item.id+'\', 1)">+</button>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<span class="s-item-price">' + (item.price * item.qty).toFixed(2) + ' SAR</span>' +
+        '<button class="remove-btn" onclick="removeItem(\''+item.id+'\')" title="Remove">✕</button>' +
+      '</div>' +
     '</div>';
   });
   el.innerHTML = html;
@@ -820,6 +837,25 @@ function renderSummary(){
   var shipRow = document.getElementById("shipping-row");
   if(shipRow) shipRow.style.display = cart.length > 0 ? "" : "none";
   document.getElementById("cart-count").textContent = cart.reduce(function(s,i){return s+i.qty;},0);
+}
+
+
+function changeQty(id, delta) {
+  var c = getCart();
+  var item = c.find(function(i){ return i.id === id; });
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) {
+    c = c.filter(function(i){ return i.id !== id; });
+  }
+  saveCart(c);
+  renderSummary();
+}
+
+function removeItem(id) {
+  var c = getCart().filter(function(i){ return i.id !== id; });
+  saveCart(c);
+  renderSummary();
 }
 
 function placeOrder(){
