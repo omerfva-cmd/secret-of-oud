@@ -874,23 +874,29 @@ function placeOrder(){
   var sub = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
   var total = sub + 10;
 
-  // Submit to Netlify Forms (sends email to info@secretofoud.com)
-  document.getElementById("nf-name").value = name;
-  document.getElementById("nf-phone").value = phone;
-  document.getElementById("nf-email").value = email;
-  document.getElementById("nf-city").value = city;
-  document.getElementById("nf-district").value = district;
-  document.getElementById("nf-address").value = addr;
-  document.getElementById("nf-apt").value = apt;
-  document.getElementById("nf-items").value = items;
-  document.getElementById("nf-subtotal").value = sub.toFixed(2) + " SAR";
-  document.getElementById("nf-total").value = total.toFixed(2) + " SAR";
-  document.getElementById("nf-payment").value = currentPay.toUpperCase();
+  // Submit order via email to info@secretofoud.com (feeds into Odoo)
+  var orderData = new FormData();
+  orderData.append("Customer Name", name);
+  orderData.append("Phone", phone);
+  orderData.append("Email", email);
+  orderData.append("City", city);
+  orderData.append("District", district);
+  orderData.append("Address", addr);
+  orderData.append("Apartment", apt);
+  orderData.append("Items", items);
+  orderData.append("Subtotal", sub.toFixed(2) + " SAR");
+  orderData.append("Total", total.toFixed(2) + " SAR");
+  orderData.append("Payment Method", currentPay.toUpperCase());
+  orderData.append("_subject", "New Order - Secret of Oud");
 
-  var formData = new FormData(document.getElementById("netlify-form"));
-  fetch("/", { method: "POST", body: formData })
-    .then(function(){ console.log("Order submitted to Netlify"); })
-    .catch(function(e){ console.log("Netlify submit error:", e); });
+  fetch("https://formsubmit.co/ajax/info@secretofoud.com", {
+    method: "POST",
+    headers: { "Accept": "application/json" },
+    body: orderData
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(){ console.log("Order submitted"); })
+  .catch(function(e){ console.log("Order submit error:", e); });
 
   showToast("Order received! Please complete payment and send your receipt.");
 }
