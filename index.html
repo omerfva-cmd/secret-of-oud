@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secret of Oud | Luxury Oud Fragrances</title>
 <meta name="description" content="Secret of Oud — luxury oud perfumes from Riyadh. Imperial and Breeze Collections.">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ── RESET ── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -241,13 +241,30 @@ nav {
 /* ── HERO ── */
 #hero {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  min-height: 600px;
+  width: calc(100% - 24px);
+  margin: 12px auto 0;
+  height: 70vh;
+  max-height: 680px;
+  min-height: 520px;
   overflow: hidden;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media (min-width: 768px) {
+  #hero {
+    height: 68vh;
+    max-height: 660px;
+    min-height: 580px;
+  }
+}
+@media (min-width: 1200px) {
+  #hero {
+    height: 65vh;
+    max-height: 640px;
+    min-height: 580px;
+  }
 }
 
 /* Slides */
@@ -259,9 +276,9 @@ nav {
 .hero-slide.active { opacity: 1; }
 .hero-slide img {
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center 20%;
+  object-fit: cover; object-position: center 25%;
   filter: brightness(0.65);
-  transform: scale(1.03);
+  transform: scale(1.0);
   transition: transform 6s ease;
 }
 .hero-slide.active img { transform: scale(1.0); }
@@ -490,8 +507,8 @@ nav {
   letter-spacing: .35em; text-transform: uppercase;
   background: var(--gold); color: #000; padding: 4px 10px;
 }
-.card-img-wrap { height: 460px; overflow: hidden; position: relative; border-radius: 2px 2px 0 0; }
-.card-img { width: 70%; height: 100%; object-fit: contain; object-position: center; transition: transform .6s var(--ease); padding: 0; background: transparent; margin: 0 auto; }
+.card-img-wrap { height: 360px; overflow: hidden; position: relative; border-radius: 2px 2px 0 0; }
+.card-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform .6s var(--ease); padding: 0; background: transparent; margin: 0 auto; }
 .card-overlay {
   position: absolute; bottom: 0; left: 0; right: 0;
   padding: 20px 16px 16px;
@@ -818,13 +835,30 @@ nav {
 /* ── HERO ── */
 #hero {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  min-height: 600px;
+  width: calc(100% - 24px);
+  margin: 12px auto 0;
+  height: 70vh;
+  max-height: 680px;
+  min-height: 520px;
   overflow: hidden;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media (min-width: 768px) {
+  #hero {
+    height: 68vh;
+    max-height: 660px;
+    min-height: 580px;
+  }
+}
+@media (min-width: 1200px) {
+  #hero {
+    height: 65vh;
+    max-height: 640px;
+    min-height: 580px;
+  }
 }
 
 /* Slides */
@@ -836,9 +870,9 @@ nav {
 .hero-slide.active { opacity: 1; }
 .hero-slide img {
   width: 100%; height: 100%;
-  object-fit: cover; object-position: center 20%;
+  object-fit: cover; object-position: center 25%;
   filter: brightness(0.65);
-  transform: scale(1.03);
+  transform: scale(1.0);
   transition: transform 6s ease;
 }
 .hero-slide.active img { transform: scale(1.0); }
@@ -1067,8 +1101,8 @@ nav {
   letter-spacing: .35em; text-transform: uppercase;
   background: var(--gold); color: #000; padding: 4px 10px;
 }
-.card-img-wrap { height: 460px; overflow: hidden; position: relative; border-radius: 2px 2px 0 0; }
-.card-img { width: 70%; height: 100%; object-fit: contain; object-position: center; transition: transform .6s var(--ease); padding: 0; background: transparent; margin: 0 auto; }
+.card-img-wrap { height: 360px; overflow: hidden; position: relative; border-radius: 2px 2px 0 0; }
+.card-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform .6s var(--ease); padding: 0; background: transparent; margin: 0 auto; }
 .card-overlay {
   position: absolute; bottom: 0; left: 0; right: 0;
   padding: 20px 16px 16px;
@@ -1219,6 +1253,7 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
   }
 }
 
+
 </style>
 
 </head>
@@ -1294,12 +1329,12 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
 <!-- PROMO STRIP -->
 <div class="promo-strip wave-bg">
   <div class="promo-inner">
-    <span>Delivery in Riyadh — 10 SAR</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
+    <span>Free Delivery in Riyadh</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
     <span>Imperial Collection &mdash; From 79.99 SAR</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
     <span>New Arrivals &mdash; Tropical Breeze</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
     <span>Order via WhatsApp &middot; Fast &amp; Easy</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
     <span>Worldwide Shipping Available</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
-    <span>Delivery in Riyadh — 10 SAR</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
+    <span>Free Delivery in Riyadh</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
     <span>Imperial Collection &mdash; From 79.99 SAR</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
     <span>New Arrivals &mdash; Tropical Breeze</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
     <span>Order via WhatsApp &middot; Fast &amp; Easy</span><span class="promo-dot">&nbsp;&#9670;&nbsp;</span>
@@ -1382,10 +1417,7 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
   </div>
 
   <!-- Scroll indicator -->
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
+
 </section>
 
 <div style="height:80px;background:#fff"></div>
@@ -1441,7 +1473,7 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
 <span class="card-name">Midnight Breeze</span>
 <span class="card-notes" style="font-family:Jost,sans-serif;font-size:10px;font-weight:700;color:#000;letter-spacing:.15em;display:block;margin-bottom:16px;text-transform:uppercase">Pink Pepper · Sweet Orange · Amber</span>
 <div class="card-price-row" style="justify-content:center;text-align:center">
-<span class="card-price">79 SAR</span>
+<span class="card-price">79.99 SAR</span>
 <span class="card-meta">Men's · 30ml EDP</span>
 </div></div></div>
 <div class="card" onclick="window.location.href='white-breeze.html'" data-gender="unisex">
@@ -1457,7 +1489,7 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
 <span class="card-name">White Breeze</span>
 <span class="card-notes" style="font-family:Jost,sans-serif;font-size:10px;font-weight:700;color:#000;letter-spacing:.15em;display:block;margin-bottom:16px;text-transform:uppercase">Citrus · Frankincense · Bergamot · Sicilian Orange</span>
 <div class="card-price-row" style="justify-content:center;text-align:center">
-<span class="card-price">79 SAR</span>
+<span class="card-price">79.99 SAR</span>
 <span class="card-meta">Men's · 30ml EDP</span>
 </div></div></div>
 <div class="card" onclick="window.location.href='scarlet-breeze.html'" data-gender="womens">
@@ -1473,7 +1505,7 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
 <span class="card-name">Scarlet Breeze</span>
 <span class="card-notes" style="font-family:Jost,sans-serif;font-size:10px;font-weight:700;color:#000;letter-spacing:.15em;display:block;margin-bottom:16px;text-transform:uppercase">Mandarin · Lavender · Black Currant · Musk</span>
 <div class="card-price-row" style="justify-content:center;text-align:center">
-<span class="card-price">79 SAR</span>
+<span class="card-price">79.99 SAR</span>
 <span class="card-meta">Women's · 30ml EDP</span>
 </div></div></div>
 <div class="card" onclick="window.location.href='phantom-breeze.html'" data-gender="mens">
@@ -1489,7 +1521,7 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
 <span class="card-name">Phantom Breeze</span>
 <span class="card-notes" style="font-family:Jost,sans-serif;font-size:10px;font-weight:700;color:#000;letter-spacing:.15em;display:block;margin-bottom:16px;text-transform:uppercase">Vanilla · Lavender</span>
 <div class="card-price-row" style="justify-content:center;text-align:center">
-<span class="card-price">79 SAR</span>
+<span class="card-price">79.99 SAR</span>
 <span class="card-meta">Men's · 30ml EDP</span>
 </div></div></div>
 <div class="card" onclick="window.location.href='tropical-breeze.html'" data-gender="unisex">
@@ -1505,7 +1537,7 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
 <span class="card-name">Tropical Breeze</span>
 <span class="card-notes" style="font-family:Jost,sans-serif;font-size:10px;font-weight:700;color:#000;letter-spacing:.15em;display:block;margin-bottom:16px;text-transform:uppercase">Grapefruit · Sweet Ginger · Peach</span>
 <div class="card-price-row" style="justify-content:center;text-align:center">
-<span class="card-price">79 SAR</span>
+<span class="card-price">79.99 SAR</span>
 <span class="card-meta">Unisex · 30ml EDP</span>
 </div></div></div></div>
   </div>
@@ -1519,6 +1551,26 @@ footer { background: #fff; border-top: 1px solid rgba(0,0,0,0.08); padding: 56px
   <div class="trust-item"><span class="trust-icon">&#127873;</span><span class="trust-label">Gift Wrapping</span></div>
   <div class="trust-item"><span class="trust-icon">&#127758;</span><span class="trust-label">Worldwide Shipping</span></div>
 </div>
+
+<!-- REVIEWS -->
+<section style="max-width:1000px;margin:0 auto;padding:70px 24px;">
+  <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:500;text-align:center;letter-spacing:.05em;margin-bottom:8px;color:#1a1a1a;">What Our Customers Say</h2>
+  <div style="width:44px;height:1px;background:#C9A84C;margin:0 auto 48px;"></div>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;">
+    <div style="flex:1;min-width:280px;max-width:440px;border:1px solid rgba(0,0,0,0.08);padding:32px;text-align:center;">
+      <div style="color:#C9A84C;font-size:15px;letter-spacing:3px;margin-bottom:16px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;line-height:1.6;color:#333;margin-bottom:18px;">&ldquo;Really fresh and citrusy smell. I really like the scent and I get lots of compliments &mdash; it even reminds me of some big brands!&rdquo;</p>
+      <span style="font-family:Jost,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#999;display:block;">Verified Buyer</span>
+      <span style="font-family:Jost,sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#C9A84C;display:block;margin-top:6px;">White Breeze</span>
+    </div>
+    <div style="flex:1;min-width:280px;max-width:440px;border:1px solid rgba(0,0,0,0.08);padding:32px;text-align:center;">
+      <div style="color:#C9A84C;font-size:15px;letter-spacing:3px;margin-bottom:16px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:19px;font-style:italic;line-height:1.6;color:#333;margin-bottom:18px;">&ldquo;Really good night-time scent &mdash; perfect for the evening.&rdquo;</p>
+      <span style="font-family:Jost,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#999;display:block;">Verified Buyer</span>
+      <span style="font-family:Jost,sans-serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#C9A84C;display:block;margin-top:6px;">Midnight Breeze</span>
+    </div>
+  </div>
+</section>
 
 <!-- WA SECTION -->
 <div class="wa-section">
@@ -1590,11 +1642,11 @@ function goHeroSlide(n) {
 }
 function nextHeroSlide() { goHeroSlide(heroCurrent + 1); }
 function prevHeroSlide() { goHeroSlide(heroCurrent - 1); }
-heroTimer = setInterval(nextHeroSlide, 5000);
+heroTimer = setInterval(nextHeroSlide, 2000);
 
 // Pause on hover
 document.getElementById('hero').addEventListener('mouseenter', function(){ clearInterval(heroTimer); });
-document.getElementById('hero').addEventListener('mouseleave', function(){ heroTimer = setInterval(nextHeroSlide, 5000); });
+document.getElementById('hero').addEventListener('mouseleave', function(){ heroTimer = setInterval(nextHeroSlide, 2000); });
 
 // Nav scroll
 window.addEventListener('scroll', function() {
