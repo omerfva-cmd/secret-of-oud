@@ -669,7 +669,7 @@ nav {
     <!-- Shipping info -->
     <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07);margin-bottom:32px">
       <span style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(0,0,0,0.35)">Shipping</span>
-      <span style="font-size:13px;color:#000"><strong>10 SAR</strong> · Riyadh 1-2 business days</span>
+      <span style="font-size:13px;color:#000"><strong>Free</strong> · Riyadh 1-2 business days</span>
     </div>
 
     <!-- Payment -->
@@ -770,7 +770,8 @@ nav {
     </div>
     <div class="totals-wrap">
       <div class="t-row"><span class="t-lbl">Subtotal</span><span class="t-val" id="s-sub">0.00 SAR</span></div>
-      <div class="t-row" id="shipping-row"><span class="t-lbl">Shipping</span><span class="t-val">10.00 SAR</span></div>
+      <div class="t-row" id="savings-row" style="display:none;color:#0a7d2c"><span class="t-lbl">Summer Offer Savings</span><span class="t-val" id="s-savings">0.00 SAR</span></div>
+      <div class="t-row" id="shipping-row"><span class="t-lbl">Shipping</span><span class="t-val">Free</span></div>
       <div class="t-row t-total"><span class="t-lbl">Total</span><span class="t-val" id="s-total">0.00 SAR</span></div>
     </div>
   </div>
@@ -801,6 +802,35 @@ function copyText(id, btn) {
 function getCart(){ try{ return JSON.parse(localStorage.getItem("soo_cart"))||[]; }catch(e){ return[]; } }
 function saveCart(c){ localStorage.setItem("soo_cart", JSON.stringify(c)); }
 
+// ===== SUMMER SALE PRICING (1 for 70 SAR, 2 for 120 SAR — any mix of Breeze scents) =====
+// Active through Sept 5. To end the sale: set SUMMER_SALE_ACTIVE to false.
+var SUMMER_SALE_ACTIVE = true;
+var SUMMER_SALE_SINGLE_PRICE = 70;
+var SUMMER_SALE_BUNDLE_PRICE = 120; // per pair
+
+function calcCartTotal(cart){
+  if(!SUMMER_SALE_ACTIVE){
+    var sub = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
+    return { subtotal: sub, savings: 0 };
+  }
+  // Count total Breeze bottles (any scent) vs non-Breeze items
+  var breezeQty = 0;
+  var otherTotal = 0;
+  cart.forEach(function(item){
+    if(item.id.indexOf("-breeze") !== -1){
+      breezeQty += item.qty;
+    } else {
+      otherTotal += item.price * item.qty;
+    }
+  });
+  var pairs = Math.floor(breezeQty / 2);
+  var singles = breezeQty % 2;
+  var breezeTotal = (pairs * SUMMER_SALE_BUNDLE_PRICE) + (singles * SUMMER_SALE_SINGLE_PRICE);
+  var fullPriceBreezeTotal = breezeQty * 70;
+  var savings = fullPriceBreezeTotal - breezeTotal;
+  return { subtotal: breezeTotal + otherTotal, savings: savings };
+}
+
 function renderSummary(){
   var cart = getCart();
   var el = document.getElementById("s-items");
@@ -827,10 +857,20 @@ function renderSummary(){
     '</div>';
   });
   el.innerHTML = html;
-  var sub = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
-  var shipping = cart.length > 0 ? 10 : 0;
+  var calc = calcCartTotal(cart);
+  var sub = calc.subtotal;
+  var shipping = 0;
   document.getElementById("s-sub").textContent = sub.toFixed(2) + " SAR";
   document.getElementById("s-total").textContent = (sub + shipping).toFixed(2) + " SAR";
+  var savingsRow = document.getElementById("savings-row");
+  if(calc.savings > 0){
+    if(savingsRow){
+      savingsRow.style.display = "";
+      document.getElementById("s-savings").textContent = "-" + calc.savings.toFixed(2) + " SAR";
+    }
+  } else if(savingsRow){
+    savingsRow.style.display = "none";
+  }
   var shipRow = document.getElementById("shipping-row");
   if(shipRow) shipRow.style.display = cart.length > 0 ? "" : "none";
   document.getElementById("cart-count").textContent = cart.reduce(function(s,i){return s+i.qty;},0);
@@ -868,8 +908,9 @@ function placeOrder(){
   if(!name||!phone){ showToast("Please enter your name and phone"); return; }
   
   var items = cart.map(function(i){return i.qty+"x "+i.name+" ("+i.price.toFixed(2)+" SAR)";}).join(", ");
-  var sub = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
-  var total = sub + 10;
+  var calc = calcCartTotal(cart);
+  var sub = calc.subtotal;
+  var total = sub;
 
   // Submit to Netlify Forms (sends email to info@secretofoud.com)
   document.getElementById("nf-name").value = name;
@@ -900,9 +941,10 @@ function orderWA(){
   var city = document.getElementById("f-city").value.trim();
   var addr = document.getElementById("f-address").value.trim();
   var items = cart.map(function(i){return i.qty+"x "+i.name+" ("+i.price+" SAR)";}).join("%0A");
-  var sub = cart.reduce(function(s,i){return s+i.price*i.qty;},0);
-  var shipping = 10;
-  var total = sub + shipping;
+  var calc = calcCartTotal(cart);
+  var sub = calc.subtotal;
+  var total = sub;
+  var savingsLine = calc.savings > 0 ? ("%0ASummer Offer Savings: -"+calc.savings.toFixed(2)+" SAR") : "";
   var msg = "Hi! New Order from Secret of Oud%0A%0A"
     +(name?"Name: "+encodeURIComponent(name)+"%0A":"")
     +(phone?"Phone: "+encodeURIComponent(phone)+"%0A":"")
@@ -910,7 +952,8 @@ function orderWA(){
     +(addr?"Address: "+encodeURIComponent(addr)+"%0A":"")
     +"%0AItems:%0A"+items
     +"%0A%0ASubtotal: "+sub.toFixed(2)+" SAR"
-    +"%0ADelivery: 10.00 SAR"
+    +savingsLine
+    +"%0ADelivery: Free"
     +"%0ATotal: "+total.toFixed(2)+" SAR"
     +"%0A%0APayment method: "+currentPay.toUpperCase();
   window.open("https://wa.me/966542674554?text="+msg,"_blank");
@@ -950,7 +993,7 @@ function copyIBAN(iban, btn) {
   <input type="hidden" name="apartment" id="nf-apt"/>
   <input type="hidden" name="items" id="nf-items"/>
   <input type="hidden" name="subtotal" id="nf-subtotal"/>
-  <input type="hidden" name="delivery" value="10.00 SAR"/>
+  <input type="hidden" name="delivery" value="Free"/>
   <input type="hidden" name="total" id="nf-total"/>
   <input type="hidden" name="payment-method" id="nf-payment"/>
 </form>
